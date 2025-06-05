@@ -1,7 +1,7 @@
-package com.example.springcloudaws.controller;
+package com.javaninja.controller;
 
-import com.example.springcloudaws.model.dto.SqsMessageRequest;
-import com.example.springcloudaws.service.SqsService;
+import com.javaninja.model.dto.SqsMessageRequest;
+import com.javaninja.service.SqsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

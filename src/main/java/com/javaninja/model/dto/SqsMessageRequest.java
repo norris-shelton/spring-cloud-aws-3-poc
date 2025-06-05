@@ -1,4 +1,4 @@
-package com.example.springcloudaws.model.dto;
+package com.javaninja.model.dto;
 
 import jakarta.validation.constraints.NotBlank;
 

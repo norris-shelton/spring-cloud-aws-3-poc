@@ -1,6 +1,6 @@
-package com.example.springcloudaws.service;
+package com.javaninja.service;
 
-import com.example.springcloudaws.model.dto.SqsMessageRequest;
+import com.javaninja.model.dto.SqsMessageRequest;
 import io.awspring.cloud.sqs.operations.SqsTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

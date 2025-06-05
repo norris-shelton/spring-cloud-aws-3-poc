@@ -1,217 +1,226 @@
 # Spring Cloud AWS 3 POC
 
-A focused Spring Boot 3 application demonstrating Spring Cloud AWS 3.0 integration with AWS services.
+A comprehensive Spring Boot 3 project demonstrating integration with multiple AWS services using Spring Cloud AWS 3.3.0.
 
-## Features
+## 🚀 **Features**
 
-- **Spring Boot 3.4.6** with **Java 17**
-- **Spring Cloud AWS 3.3.0** integration
-- **AWS Services**: SQS, SNS, S3, DynamoDB, SES, Secrets Manager, Parameter Store, CloudWatch
-- **API Documentation**: Swagger/OpenAPI integration
-- **Testing**: JUnit 5 with TestContainers support
-- **Production Ready**: Actuator endpoints for monitoring
+This project provides complete integration with:
+- **Amazon SQS** - Message queuing and processing
+- **Amazon SNS** - Pub/sub messaging and notifications  
+- **Amazon S3** - Object storage and file management
+- **AWS Secrets Manager** - Secure secret storage and retrieval
 
-## Quick Start
+## 🏗️ **Architecture**
 
-### Prerequisites
-- Java 17 or higher
-- Maven 3.6 or higher
-- AWS Account (for production) or LocalStack (for local testing)
+Built with clean architecture principles:
+- **Controllers** - REST API endpoints for each AWS service
+- **Services** - Business logic and AWS SDK integration
+- **DTOs** - Type-safe request/response models
+- **Configuration** - AWS client setup and Spring configuration
 
-### Running the Application
+## 📋 **Available Endpoints**
 
-1. **Clone/Download the project**
-2. **Open in IntelliJ IDEA**:
-   - File → Open → Select the project folder
-   - IntelliJ will automatically detect it as a Maven project
-   - Wait for dependencies to download
-
-3. **Configure AWS Credentials** (choose one):
-   
-   **Option A: Environment Variables**
-   ```bash
-   export AWS_ACCESS_KEY_ID=your-access-key
-   export AWS_SECRET_ACCESS_KEY=your-secret-key
-   export AWS_DEFAULT_REGION=us-east-1
-   ```
-   
-   **Option B: AWS CLI**
-   ```bash
-   aws configure
-   ```
-   
-   **Option C: IAM Roles** (when running on EC2)
-
-4. **Run the Application**:
-   - In IntelliJ: Right-click on `SpringCloudAwsApplication.java` → Run
-   - Or use Maven: `mvn spring-boot:run`
-
-5. **Access the Application**:
-   - Application: http://localhost:8080/api
-   - Swagger UI: http://localhost:8080/swagger-ui.html
-   - Health Check: http://localhost:8080/actuator/health
-
-## API Endpoints
-
-### SQS Endpoints
-- `POST /api/sqs/send` - Send message to SQS queue
-- `GET /api/sqs/health` - SQS service health check
-
-### Future Endpoints
-The project structure is ready for additional AWS service endpoints:
-- SNS (Simple Notification Service)
-- S3 (Simple Storage Service)
-- DynamoDB (NoSQL Database)
-- SES (Simple Email Service)
-- Secrets Manager
-- Parameter Store
-- CloudWatch
-
-## Project Structure
-
-```
-src/
-├── main/
-│   ├── java/com/example/springcloudaws/
-│   │   ├── SpringCloudAwsApplication.java     # Main application
-│   │   ├── controller/
-│   │   │   └── SqsController.java             # SQS endpoints
-│   │   ├── service/
-│   │   │   └── SqsService.java                # SQS business logic
-│   │   └── model/dto/
-│   │       ├── SqsMessageRequest.java         # SQS request DTO
-│   │       └── SqsMessageResponse.java        # SQS response DTO
-│   └── resources/
-│       └── application.yml                    # Configuration
-└── test/
-    └── java/com/example/springcloudaws/
-        ├── SpringCloudAwsApplicationTest.java # Basic test
-        ├── controller/
-        │   └── SqsControllerTest.java         # SQS controller tests
-        └── service/
-            └── SqsServiceTest.java            # SQS service tests
+### **SQS (Simple Queue Service)**
+```bash
+POST /api/sqs/send          # Send message to queue
+GET  /api/sqs/health        # SQS health check
 ```
 
-## Configuration
-
-### AWS Services Configuration
-Edit `application.yml` to configure your AWS resources:
-
-```yaml
-aws:
-  services:
-    sqs:
-      queues:
-        user-events: your-queue-name
-        # Add more queues as needed
-    s3:
-      buckets:
-        documents: your-bucket-name
-        # Add more buckets as needed
+### **SNS (Simple Notification Service)**
+```bash
+POST /api/sns/publish                    # Publish message to topic
+GET  /api/sns/topic/{topicArn}/exists    # Check topic existence
+GET  /api/sns/health                     # SNS health check
 ```
 
-## Development
+### **S3 (Simple Storage Service)**
+```bash
+POST   /api/s3/upload                           # Upload object
+POST   /api/s3/upload-file                      # Upload file (multipart)
+GET    /api/s3/download/{bucket}/{key}          # Download object
+DELETE /api/s3/{bucket}/{key}                   # Delete object
+GET    /api/s3/list/{bucket}                    # List objects
+GET    /api/s3/bucket/{bucket}/exists           # Check bucket existence
+GET    /api/s3/health                           # S3 health check
+```
 
-### Adding New AWS Services
+### **Secrets Manager**
+```bash
+POST   /api/secrets/create              # Create secret
+GET    /api/secrets/{name}              # Get secret value
+PUT    /api/secrets/update              # Update secret
+DELETE /api/secrets/{name}              # Delete secret
+GET    /api/secrets/{name}/exists       # Check secret existence
+GET    /api/secrets/health              # Secrets Manager health check
+```
 
-1. **Add Dependencies**: Update `pom.xml` with required Spring Cloud AWS starters
-2. **Create DTOs**: Add data transfer objects in `model/dto/`
-3. **Create Service**: Add business logic in `service/`
-4. **Create Controller**: Add REST endpoints in `controller/`
-5. **Update Configuration**: Add service-specific configuration in `application.yml`
+## 🔧 **Technology Stack**
 
-### Testing
+- **Spring Boot 3.4.6** - Latest Spring Boot version
+- **Spring Cloud AWS 3.3.0** - Latest AWS integration
+- **Java 17** - Modern Java LTS version
+- **AWS SDK v2** - Latest AWS SDK
+- **Maven** - Dependency management
+- **Swagger/OpenAPI** - API documentation
+- **JUnit 5** - Testing framework
+
+## 🚀 **Quick Start**
+
+### **Prerequisites**
+- Java 17+
+- Maven 3.6+
+- AWS Account with appropriate permissions
+
+### **Setup AWS Credentials**
+
+Choose one of the following methods:
+
+**Option 1: Environment Variables**
+```bash
+export AWS_ACCESS_KEY_ID=your-access-key
+export AWS_SECRET_ACCESS_KEY=your-secret-key
+export AWS_REGION=us-east-1
+```
+
+**Option 2: AWS CLI**
+```bash
+aws configure
+```
+
+**Option 3: IAM Roles** (when running on EC2)
+- Attach appropriate IAM role to your EC2 instance
+
+### **Run the Application**
 
 ```bash
-# Run all tests
-mvn test
+# Clone and navigate to project
+cd spring-cloud-aws-3-poc
 
-# Run specific test
-mvn test -Dtest=SqsControllerTest
+# Run the application
+./mvnw spring-boot:run
 
-# Build JAR
-mvn clean package
-
-# Skip tests
-mvn clean package -DskipTests
+# Or build and run JAR
+./mvnw clean package
+java -jar target/spring-cloud-aws-3-poc-1.0.0.jar
 ```
 
-## Example Usage
+### **Access the Application**
 
-### Send SQS Message
+- **Application**: http://localhost:8080
+- **Swagger UI**: http://localhost:8080/swagger-ui.html
+- **Health Check**: http://localhost:8080/actuator/health
 
+## 📝 **Usage Examples**
+
+### **Send SQS Message**
 ```bash
 curl -X POST http://localhost:8080/api/sqs/send \
   -H "Content-Type: application/json" \
   -d '{
-    "queueName": "user-events-queue",
-    "messageBody": "User registered successfully",
+    "queueName": "my-queue",
+    "messageBody": "Hello from Spring Cloud AWS!",
     "delaySeconds": 0
   }'
 ```
 
-### Check SQS Health
-
+### **Publish SNS Message**
 ```bash
-curl http://localhost:8080/api/sqs/health
+curl -X POST http://localhost:8080/api/sns/publish \
+  -H "Content-Type: application/json" \
+  -d '{
+    "topicArn": "arn:aws:sns:us-east-1:123456789012:my-topic",
+    "message": "Hello from SNS!",
+    "subject": "Test Message"
+  }'
 ```
 
-## Deployment
-
-### Local Development
-1. Use LocalStack for AWS service emulation
-2. Set `spring.cloud.aws.endpoint=http://localhost:4566`
-
-### AWS Deployment
-1. Deploy to EC2 with IAM roles
-2. Use AWS ECS/EKS for containerized deployment
-3. Configure Application Load Balancer for high availability
-
-## Monitoring
-
-- **Health Checks**: `/actuator/health`
-- **Metrics**: `/actuator/metrics`
-- **Application Info**: `/actuator/info`
-
-## Security Considerations
-
-- Use IAM roles instead of access keys in production
-- Enable HTTPS in production
-- Configure proper CORS settings
-- Use AWS Secrets Manager for sensitive configuration
-- Enable CloudWatch logging and monitoring
-
-## Troubleshooting
-
-### Common Issues
-
-1. **AWS Credentials Not Found**
-   - Ensure AWS credentials are properly configured
-   - Check environment variables or AWS CLI configuration
-
-2. **Access Denied**
-   - Verify IAM permissions for AWS services
-   - Check security group settings
-
-3. **Connection Timeout**
-   - Verify AWS region configuration
-   - Check network connectivity
-
-### Logs
-Check application logs for detailed error information:
+### **Upload to S3**
 ```bash
-tail -f logs/spring-cloud-aws-poc.log
+curl -X POST http://localhost:8080/api/s3/upload \
+  -H "Content-Type: application/json" \
+  -d '{
+    "bucketName": "my-bucket",
+    "objectKey": "test-file.txt",
+    "content": "SGVsbG8gUzMh",
+    "contentType": "text/plain"
+  }'
 ```
 
-## Support
+### **Create Secret**
+```bash
+curl -X POST http://localhost:8080/api/secrets/create \
+  -H "Content-Type: application/json" \
+  -d '{
+    "secretName": "my-secret",
+    "secretValue": "super-secret-value",
+    "description": "Test secret"
+  }'
+```
 
-For issues and questions:
-1. Check the application logs
-2. Verify AWS service configuration
-3. Review Spring Cloud AWS documentation
-4. Check AWS service status
+## 🧪 **Testing**
 
-## License
+```bash
+# Run all tests
+./mvnw test
 
-This project is licensed under the MIT License.
+# Run specific test class
+./mvnw test -Dtest=SqsControllerTest
+
+# Build without tests
+./mvnw clean package -DskipTests
+```
+
+## 📦 **Project Structure**
+
+```
+src/main/java/com/javaninja/
+├── SpringCloudAwsApplication.java     # Main application
+├── controller/                        # REST controllers
+│   ├── SqsController.java
+│   ├── SnsController.java
+│   ├── S3Controller.java
+│   └── SecretsManagerController.java
+├── service/                           # Business logic
+│   ├── SqsService.java
+│   ├── SnsService.java
+│   ├── S3Service.java
+│   └── SecretsManagerService.java
+├── model/dto/                         # Data transfer objects
+│   ├── SqsMessageRequest.java
+│   ├── SnsMessageRequest.java
+│   ├── S3ObjectRequest.java
+│   └── SecretsManagerRequest.java
+└── config/                            # Configuration
+    └── AwsConfig.java
+```
+
+## 🔒 **Security**
+
+- No authentication required for development/testing
+- Uses AWS IAM for service-to-service authentication
+- Secrets are handled securely through AWS Secrets Manager
+- Input validation on all endpoints
+
+## 🌟 **Features**
+
+- **Comprehensive AWS Integration** - 4 major AWS services
+- **Production Ready** - Error handling, logging, validation
+- **Well Documented** - Swagger UI and comprehensive README
+- **Testable** - Unit and integration tests included
+- **Extensible** - Easy to add more AWS services
+- **Modern Stack** - Latest Spring Boot and AWS SDK versions
+
+## 📚 **Additional Resources**
+
+- [Spring Cloud AWS Documentation](https://docs.awspring.io/)
+- [AWS SDK for Java Documentation](https://docs.aws.amazon.com/sdk-for-java/)
+- [Spring Boot Documentation](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/)
+
+## 🤝 **Contributing**
+
+This is a proof of concept project demonstrating AWS integration patterns. Feel free to extend it with additional AWS services or features!
+
+## 📄 **License**
+
+This project is for educational and demonstration purposes.
 
