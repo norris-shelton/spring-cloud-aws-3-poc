@@ -1,13 +1,12 @@
 # Spring Cloud AWS 3 POC
 
-A comprehensive Spring Boot 3 application demonstrating Spring Cloud AWS 3.0 integration with all supported AWS services.
+A focused Spring Boot 3 application demonstrating Spring Cloud AWS 3.0 integration with AWS services.
 
 ## Features
 
 - **Spring Boot 3.4.6** with **Java 17**
 - **Spring Cloud AWS 3.3.0** integration
 - **AWS Services**: SQS, SNS, S3, DynamoDB, SES, Secrets Manager, Parameter Store, CloudWatch
-- **Security**: Basic authentication with role-based access control
 - **API Documentation**: Swagger/OpenAPI integration
 - **Testing**: JUnit 5 with TestContainers support
 - **Production Ready**: Actuator endpoints for monitoring
@@ -52,17 +51,7 @@ A comprehensive Spring Boot 3 application demonstrating Spring Cloud AWS 3.0 int
    - Swagger UI: http://localhost:8080/swagger-ui.html
    - Health Check: http://localhost:8080/actuator/health
 
-### Authentication
-- **Username**: `admin`
-- **Password**: `admin123`
-- **Role**: `ADMIN` (required for AWS endpoints)
-
 ## API Endpoints
-
-### General Endpoints
-- `GET /api/health` - Application health check
-- `GET /api/info` - Application information
-- `POST /api/test` - Test endpoint
 
 ### SQS Endpoints
 - `POST /api/sqs/send` - Send message to SQS queue
@@ -85,20 +74,22 @@ src/
 ├── main/
 │   ├── java/com/example/springcloudaws/
 │   │   ├── SpringCloudAwsApplication.java     # Main application
-│   │   ├── config/
-│   │   │   └── SecurityConfig.java            # Security configuration
 │   │   ├── controller/
-│   │   │   ├── GeneralController.java         # General endpoints
 │   │   │   └── SqsController.java             # SQS endpoints
 │   │   ├── service/
 │   │   │   └── SqsService.java                # SQS business logic
 │   │   └── model/dto/
-│   │       └── SqsDto.java                    # Data transfer objects
+│   │       ├── SqsMessageRequest.java         # SQS request DTO
+│   │       └── SqsMessageResponse.java        # SQS response DTO
 │   └── resources/
 │       └── application.yml                    # Configuration
 └── test/
     └── java/com/example/springcloudaws/
-        └── SpringCloudAwsApplicationTest.java # Basic test
+        ├── SpringCloudAwsApplicationTest.java # Basic test
+        ├── controller/
+        │   └── SqsControllerTest.java         # SQS controller tests
+        └── service/
+            └── SqsServiceTest.java            # SQS service tests
 ```
 
 ## Configuration
@@ -119,12 +110,6 @@ aws:
         # Add more buckets as needed
 ```
 
-### Security Configuration
-- Basic authentication is enabled by default
-- Admin user: `admin/admin123`
-- Regular user: `user/user123`
-- Modify `SecurityConfig.java` to customize security settings
-
 ## Development
 
 ### Adding New AWS Services
@@ -142,17 +127,33 @@ aws:
 mvn test
 
 # Run specific test
-mvn test -Dtest=SpringCloudAwsApplicationTest
-```
+mvn test -Dtest=SqsControllerTest
 
-### Building
-
-```bash
 # Build JAR
 mvn clean package
 
 # Skip tests
 mvn clean package -DskipTests
+```
+
+## Example Usage
+
+### Send SQS Message
+
+```bash
+curl -X POST http://localhost:8080/api/sqs/send \
+  -H "Content-Type: application/json" \
+  -d '{
+    "queueName": "user-events-queue",
+    "messageBody": "User registered successfully",
+    "delaySeconds": 0
+  }'
+```
+
+### Check SQS Health
+
+```bash
+curl http://localhost:8080/api/sqs/health
 ```
 
 ## Deployment

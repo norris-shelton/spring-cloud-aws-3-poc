@@ -16,13 +16,6 @@ spring:
         secret-key: test
       stack:
         auto: false
-  
-  # Security configuration for tests
-  security:
-    user:
-      name: admin
-      password: admin123
-      roles: ADMIN
 
 # Server configuration for tests
 server:
@@ -42,7 +35,6 @@ management:
 logging:
   level:
     com.example.springcloudaws: DEBUG
-    org.springframework.security: DEBUG
     org.springframework.web: DEBUG
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"

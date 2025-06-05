@@ -14,13 +14,6 @@ spring:
         secret-key: ${AWS_SECRET_ACCESS_KEY:}
       stack:
         auto: false
-  
-  # Security Configuration
-  security:
-    user:
-      name: admin
-      password: admin123
-      roles: ADMIN
 
 # Server Configuration
 server:
