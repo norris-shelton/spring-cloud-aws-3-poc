@@ -30,7 +30,8 @@ public class SecurityConfig {
                 .requestMatchers("/api/health", "/api/info").permitAll()
                 
                 // Protected endpoints
-                .requestMatchers("/api/**").hasRole("ADMIN")
+                .requestMatchers("/api/test").hasRole("ADMIN")
+                .requestMatchers("/api/sqs/**").hasRole("ADMIN")
                 
                 // All other endpoints require authentication
                 .anyRequest().authenticated()
