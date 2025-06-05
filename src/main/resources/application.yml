@@ -1,0 +1,86 @@
+spring:
+  application:
+    name: spring-cloud-aws-3-poc
+  
+  # AWS Configuration
+  cloud:
+    aws:
+      region:
+        static: us-east-1
+      credentials:
+        # Use default credential chain (environment variables, IAM roles, etc.)
+        # For local development, set AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
+        access-key: ${AWS_ACCESS_KEY_ID:}
+        secret-key: ${AWS_SECRET_ACCESS_KEY:}
+      stack:
+        auto: false
+  
+  # Security Configuration
+  security:
+    user:
+      name: admin
+      password: admin123
+      roles: ADMIN
+
+# Server Configuration
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+# Management Endpoints
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    export:
+      cloudwatch:
+        enabled: false
+
+# Logging Configuration
+logging:
+  level:
+    com.example.springcloudaws: INFO
+    io.awspring.cloud: INFO
+    software.amazon.awssdk: WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+
+# AWS Service Configuration
+aws:
+  services:
+    # SQS Configuration
+    sqs:
+      queues:
+        user-events: user-events-queue
+        order-events: order-events-queue
+        notification-events: notification-events-queue
+        dlq: dead-letter-queue
+    
+    # SNS Configuration
+    sns:
+      topics:
+        user-notifications: user-notifications-topic
+        order-notifications: order-notifications-topic
+        system-alerts: system-alerts-topic
+    
+    # S3 Configuration
+    s3:
+      buckets:
+        documents: spring-cloud-aws-documents
+        images: spring-cloud-aws-images
+        backups: spring-cloud-aws-backups
+    
+    # DynamoDB Configuration
+    dynamodb:
+      tables:
+        users: Users
+        orders: Orders
+        sessions: Sessions
+
